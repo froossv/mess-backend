@@ -29,8 +29,14 @@ var routes = Routes{
     },
     Route{
         "Orders",
-        "GET",
+        "POST",
         "/orders",
         handlers.Orders,
+    },
+    Route{
+        "Users",
+        "GET",
+        "/users",
+        handlers.Users,
     },
 }
