@@ -48,6 +48,7 @@ func Menu(w http.ResponseWriter, r *http.Request){
 }
 
 func Orders(w http.ResponseWriter, r *http.Request){
+    currentTime:= time.Now()
     enableCors(&w,r)
     order:= studOrder{}
     status:= Confirm{
@@ -60,11 +61,21 @@ func Orders(w http.ResponseWriter, r *http.Request){
     }
     fmt.Println("Got these :",order.Reg,order.Bf,order.Lun,order.Din)
 
-    db,err := sql.Open("mysql","vathsan:mysqlrox@tcp(127.0.0.1:3306)/orders")
-    if err! = nil{
+    db,err := sql.Open("mysql","vathsan:mysqlrox@tcp(127.0.0.1:3306)/leafagro_orders")
+    if err != nil{
         panic(err)
     }
+    fmt.Println(currentTime.Format("2006_01_02"))
+    rows,errq := db.Query("SELECT 1 FROM asasd LIMIT 1")
+    if errq == nil{
+        fmt.Println("Error")
+        defer rows.Close()
+    }else{
+        fmt.Println("No Error")
+        defer rows.Close()
+    }
 
+    status.Status = "OK"
     statusJson,err := json.Marshal(status)
     if err!=nil{
         panic(err)

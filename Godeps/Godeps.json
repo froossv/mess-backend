@@ -1,0 +1,17 @@
+{
+	"ImportPath": "backendSastraMess",
+	"GoVersion": "go1.10",
+	"GodepVersion": "v80",
+	"Deps": [
+		{
+			"ImportPath": "github.com/go-sql-driver/mysql",
+			"Comment": "v1.4.0-17-g972a708",
+			"Rev": "972a708cf97995463843c08c8585b26997daf0e1"
+		},
+		{
+			"ImportPath": "github.com/gorilla/mux",
+			"Comment": "v1.7.0-1-g8559a4f",
+			"Rev": "8559a4f775fc329165fe32bd4c2543de8ada8fce"
+		}
+	]
+}
