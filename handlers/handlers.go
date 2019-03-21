@@ -101,6 +101,7 @@ func Users(w http.ResponseWriter, r *http.Request){
 
     db,err := sql.Open("mysql","vathsan:mysqlrox@tcp(127.0.0.1:3306)/users")
     if err!=nil{
+        fmt.Println("MYSQL didnt init")
         panic(err)
     }
     defer db.Close()
