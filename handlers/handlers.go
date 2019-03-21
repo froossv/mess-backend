@@ -7,6 +7,7 @@ import (
     "database/sql"
     "time"
     _ "github.com/go-sql-driver/mysql"
+    //"strings"
 )
 
 type Confirm struct {
@@ -49,7 +50,6 @@ func Menu(w http.ResponseWriter, r *http.Request){
 
 func Orders(w http.ResponseWriter, r *http.Request){
     currentTime:= time.Now()
-    enableCors(&w,r)
     order:= studOrder{}
     status:= Confirm{
         Status: "Error",
@@ -66,12 +66,13 @@ func Orders(w http.ResponseWriter, r *http.Request){
         panic(err)
     }
     fmt.Println(currentTime.Format("2006_01_02"))
-    rows,errq := db.Query("SELECT 1 FROM asasd LIMIT 1")
+    rows,errq := db.Query("SELECT 1 FROM 2019_03_20")
     if errq == nil{
-        fmt.Println("Error")
+        fmt.Println("No Error")
+        fmt.Println(errq)
         defer rows.Close()
     }else{
-        fmt.Println("No Error")
+        fmt.Println("Error")
         defer rows.Close()
     }
 
@@ -86,7 +87,6 @@ func Orders(w http.ResponseWriter, r *http.Request){
 }
 
 func Users(w http.ResponseWriter, r *http.Request){
-    enableCors(&w,r)
     user:= UserDet{}
     cUser:=UserDet{}
     status:= Confirm{
