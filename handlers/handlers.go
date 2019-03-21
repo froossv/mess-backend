@@ -101,8 +101,9 @@ func Users(w http.ResponseWriter, r *http.Request){
 
     db,err := sql.Open("mysql","vathsan:mysqlrox@tcp(127.0.0.1:3306)/users")
     if err!=nil{
-        fmt.Println("MYSQL didnt init")
         panic(err)
+    }else{
+        fmt.Println("MYSQL didnt init")
     }
     defer db.Close()
     errr := db.QueryRow("SELECT regno,pwd FROM students WHERE regno = ?", user.Username).Scan(&cUser.Username,&cUser.Password)
