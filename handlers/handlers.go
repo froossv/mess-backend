@@ -15,7 +15,6 @@ const (
     port    =   5432
     uid     =   "postgres"
     pwd     =   "admin"
-    dbname  =   "users"
 )
 
 type Confirm struct {
@@ -107,8 +106,9 @@ func Users(w http.ResponseWriter, r *http.Request){
     }
     fmt.Println("Got these :",user.Username,user.Password)
 
-    psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+"password=%s dbname=%s sslmode=disable",host, port, uid, pwd, dbname)
-    fmt.Printf(psqlInfo)
+
+    //psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+"password=%s dbname=%s sslmode=disable",host, port, uid, pwd, "users")
+    psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+"password=%s dbname=%s sslmode=disable",host, port, uid, pwd, "users")
     db,erro := sql.Open("postgres",psqlInfo)
     if erro != nil{
         fmt.Printf("Error in Validating")
