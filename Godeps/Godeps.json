@@ -12,6 +12,16 @@
 			"ImportPath": "github.com/gorilla/mux",
 			"Comment": "v1.7.0-1-g8559a4f",
 			"Rev": "8559a4f775fc329165fe32bd4c2543de8ada8fce"
+		},
+		{
+			"ImportPath": "github.com/lib/pq",
+			"Comment": "v1.0.0-10-g5ccc985",
+			"Rev": "5ccc9857e3a95a4233a13e445831cb31b90e73a6"
+		},
+		{
+			"ImportPath": "github.com/lib/pq/oid",
+			"Comment": "v1.0.0-10-g5ccc985",
+			"Rev": "5ccc9857e3a95a4233a13e445831cb31b90e73a6"
 		}
 	]
 }

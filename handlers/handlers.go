@@ -7,7 +7,15 @@ import (
     "database/sql"
     "time"
     _ "github.com/go-sql-driver/mysql"
-    //"strings"
+    _ "github.com/lib/pq"
+)
+
+const (
+    host    =   "localhost"
+    port    =   5432
+    uid     =   "postgres"
+    pwd     =   "admin"
+    dbname  =   "users"
 )
 
 type Confirm struct {
@@ -99,14 +107,21 @@ func Users(w http.ResponseWriter, r *http.Request){
     }
     fmt.Println("Got these :",user.Username,user.Password)
 
-    db,err := sql.Open("mysql","vathsan:mysqlrox@tcp(127.0.0.1:3306)/users")
-    if err!=nil{
-        panic(err)
-    }else{
-        fmt.Println("MYSQL didnt init")
+    psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+"password=%s dbname=%s sslmode=disable",host, port, uid, pwd, dbname)
+    fmt.Printf(psqlInfo)
+    db,erro := sql.Open("postgres",psqlInfo)
+    if erro != nil{
+        fmt.Printf("Error in Validating")
+        panic(erro)
     }
     defer db.Close()
-    errr := db.QueryRow("SELECT regno,pwd FROM students WHERE regno = ?", user.Username).Scan(&cUser.Username,&cUser.Password)
+    errp := db.Ping()
+    if errp != nil{
+        fmt.Printf("Error in Connecting")
+        panic(errp)
+    }
+
+    errr := db.QueryRow("SELECT reg,pwd FROM users WHERE reg = $1;", user.Username).Scan(&cUser.Username,&cUser.Password)
     if errr!=nil{
     }else{
         if user.Password == cUser.Password{
