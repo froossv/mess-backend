@@ -6,16 +6,16 @@ import (
     "encoding/json"
     "database/sql"
     "time"
-    _ "github.com/go-sql-driver/mysql"
-    _ "github.com/lib/pq"
+    "os"
+    "github.com/lib/pq"
 )
 
-const (
+/*const (
     host    =   "localhost"
     port    =   5432
     uid     =   "postgres"
     pwd     =   "admin"
-)
+)*/
 
 type Confirm struct {
     Status string `json: status`
@@ -105,10 +105,12 @@ func Users(w http.ResponseWriter, r *http.Request){
         panic(err)
     }
     fmt.Println("Got these :",user.Username,user.Password)
-
-
     //psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+"password=%s dbname=%s sslmode=disable",host, port, uid, pwd, "users")
-    psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+"password=%s dbname=%s sslmode=disable",host, port, uid, pwd, "users")
+    //psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+"password=%s dbname=%s sslmode=disable",host, port, uid, pwd, "users")
+    dburl := os.Getenv("DATABASE_URL")
+    psqlInfo,_ := pq.ParseURL(dburl)
+    psqlInfo += " sslmode=require"
+    //fmt.Println(psqlInfo)
     db,erro := sql.Open("postgres",psqlInfo)
     if erro != nil{
         fmt.Printf("Error in Validating")
@@ -127,6 +129,9 @@ func Users(w http.ResponseWriter, r *http.Request){
         if user.Password == cUser.Password{
             fmt.Println("Exists")
             status.Status = "true"
+        }else{
+            fmt.Println("Doesnt Exist")
+            status.Status = "false"
         }
     }
 
