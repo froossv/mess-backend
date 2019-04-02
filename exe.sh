@@ -1,1 +1,0 @@
-PORT=8000 DATABASE_URL=postgres://fjlwwkeobxgkwj:b3392b1bec386108db186dea3f2fd9054cc2d832ed7f3d71f36bd67de3afddc9@ec2-184-73-216-48.compute-1.amazonaws.com:5432/d1idders59vas9 $GOPATH/bin/backendSastraMess
