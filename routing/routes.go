@@ -35,7 +35,7 @@ var routes = Routes{
     },
     Route{
         "Users",
-        "OPTIONS",
+        "POST",
         "/users",
         handlers.Users,
     },
