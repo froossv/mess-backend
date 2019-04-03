@@ -94,6 +94,7 @@ func Orders(w http.ResponseWriter, r *http.Request){
 }
 
 func Users(w http.ResponseWriter, r *http.Request){
+    enableCors(&w,r);
     user:= UserDet{}
     cUser:=UserDet{}
     status:= Confirm{
