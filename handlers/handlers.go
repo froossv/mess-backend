@@ -94,7 +94,11 @@ func Orders(w http.ResponseWriter, r *http.Request){
 }
 
 func Users(w http.ResponseWriter, r *http.Request){
-    enableCors(&w,r);
+    //enableCors(&w,r);
+    w.Header().Set("Access-Control-Allow-Origin", "*") // usually, this line is enough, but you can add the following options.
+    w.Header().Set("Access-Control-Allow-Credentials", "true")
+    w.Header().Set("Access-Control-Allow-Methods", "OPTIONS, GET, POST")
+    w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Depth, User-Agent, X-File-Size, X-Requested-With, If-Modified-Since, X-File-Name, Cache-Control")
     user:= UserDet{}
     cUser:=UserDet{}
     status:= Confirm{
