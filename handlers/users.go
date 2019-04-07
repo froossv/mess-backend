@@ -16,6 +16,7 @@ import (
 type UserDet struct{
     Username int `json: username`
     Password int `json: password`
+    Hostel string `json: hostel`
 }
 
 func enableCors(w *http.ResponseWriter, r *http.Request){
@@ -30,13 +31,14 @@ func Users(w http.ResponseWriter, r *http.Request){
     user:=UserDet{}
     status:= Confirm{
         Status: "false",
+        Text: "",
     }
 
     err := json.NewDecoder(r.Body).Decode(&user)
     if err != nil{
         panic(err)
     }
-    fmt.Println("Got these :",user.Username,user.Password)
+    fmt.Println("Got these :",user.Username,user.Password,user.Hostel)
     dburl := os.Getenv("DATABASE_URL")
     psqlInfo,_ := pq.ParseURL(dburl)
     psqlInfo += " sslmode=require"
@@ -53,12 +55,13 @@ func Users(w http.ResponseWriter, r *http.Request){
         panic(errp)
     }
 
-    errr := db.QueryRow("SELECT reg,pwd FROM users WHERE reg = $1;", user.Username).Scan(&cUser.Username,&cUser.Password)
+    errr := db.QueryRow("SELECT reg,pwd,hostel FROM users WHERE reg = $1;", user.Username).Scan(&cUser.Username,&cUser.Password,&cUser.Hostel)
     if errr!=nil{
     }else{
         if user.Password == cUser.Password{
             fmt.Println("Exists")
             status.Status = "true"
+            status.Text = cUser.Hostel
         }else{
             fmt.Println("Doesnt Exist")
             status.Status = "false"

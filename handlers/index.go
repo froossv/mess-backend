@@ -8,6 +8,7 @@ import (
 
 type Confirm struct {
     Status string `json: status`
+    Text string `json: text`
 }
 
 func Index(w http.ResponseWriter, r *http.Request){
