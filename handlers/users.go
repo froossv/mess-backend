@@ -19,14 +19,7 @@ type UserDet struct{
     Hostel string `json: hostel`
 }
 
-func enableCors(w *http.ResponseWriter, r *http.Request){
-    (*w).Header().Set("Access-Control-Allow-Origin","*")
-    (*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
-    (*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
-}
-
 func Users(w http.ResponseWriter, r *http.Request){
-    //enableCors(&w,r);
     cUser:=UserDet{}
     user:=UserDet{}
     status:= Confirm{

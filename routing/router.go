@@ -2,6 +2,7 @@ package routing
 
 import(
     "github.com/gorilla/mux"
+    "github.com/rs/cors"
 )
 
 
@@ -14,5 +15,6 @@ func NewRouter() *mux.Router{
             Name(route.Name).
             Handler(route.HandlerFunc)
     }
-    return router
+    handler := cors.Default().Handler(router)
+    return handler
 }

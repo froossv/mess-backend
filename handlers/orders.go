@@ -6,7 +6,7 @@ import (
     "encoding/json"
     "database/sql"
     "time"
-    //"github.com/lib/pq"
+    "github.com/lib/pq"
 )
 
 type studOrder struct{
@@ -33,10 +33,22 @@ func Orders(w http.ResponseWriter, r *http.Request){
     }
     fmt.Println("Got these :",order.day,order.reg,order.bf1,order.bf2,order.bf1,order.lun2,order.din1,order.din2)
 
-    db,err := sql.Open("mysql","vathsan:mysqlrox@tcp(127.0.0.1:3306)/leafagro_orders")
-    if err != nil{
-        panic(err)
+    dburl := os.Getenv("DATABASE_URL")
+    psqlInfo,_ := pq.ParseURL(dburl)
+    psqlInfo += " sslmode=require"
+    //fmt.Println(psqlInfo)
+    db,erro := sql.Open("postgres",psqlInfo)
+    if erro != nil{
+        fmt.Printf("Error in Validating")
+        panic(erro)
     }
+    defer db.Close()
+    errp := db.Ping()
+    if errp != nil{
+        fmt.Printf("Error in Connecting")
+        panic(errp)
+    }
+    
     fmt.Println(currentTime.Format("2006_01_02"))
     rows,errq := db.Query("SELECT 1 FROM 2019_03_20")
     if errq == nil{
