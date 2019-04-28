@@ -3,10 +3,11 @@ package routing
 import(
     "github.com/gorilla/mux"
     "github.com/rs/cors"
+    "net/http"
 )
 
 
-func NewRouter() *mux.Router{
+func NewRouter() http.Handler{
     router := mux.NewRouter()
     for _, route := range routes{
         router.

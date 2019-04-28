@@ -7,6 +7,7 @@ import (
     "database/sql"
     "time"
     "github.com/lib/pq"
+    "os"
 )
 
 type studOrder struct{
@@ -48,7 +49,7 @@ func Orders(w http.ResponseWriter, r *http.Request){
         fmt.Printf("Error in Connecting")
         panic(errp)
     }
-    
+
     fmt.Println(currentTime.Format("2006_01_02"))
     rows,errq := db.Query("SELECT 1 FROM 2019_03_20")
     if errq == nil{
