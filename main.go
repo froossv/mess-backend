@@ -6,6 +6,7 @@ import (
     "os"
     "net/http"
     "backendSastraMess/routing"
+    "github.com/gorilla/handlers"
 )
 
 func getListenAddress() (string, error) {
@@ -24,5 +25,5 @@ func main(){
         log.Fatal(err)
     }
     router := routing.NewRouter()
-    log.Fatal(http.ListenAndServe(":"+port,router))
+    log.Fatal(http.ListenAndServe(":"+port,handlers.CORS()(router)))
 }
