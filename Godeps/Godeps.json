@@ -4,11 +4,6 @@
 	"GodepVersion": "v80",
 	"Deps": [
 		{
-			"ImportPath": "github.com/gorilla/handlers",
-			"Comment": "v1.4.0-6-gac6d24f",
-			"Rev": "ac6d24f88de4584385a0cb3a88f953d08a2f7a05"
-		},
-		{
 			"ImportPath": "github.com/gorilla/mux",
 			"Comment": "v1.7.0-1-g8559a4f",
 			"Rev": "8559a4f775fc329165fe32bd4c2543de8ada8fce"
@@ -22,6 +17,11 @@
 			"ImportPath": "github.com/lib/pq/oid",
 			"Comment": "v1.0.0-10-g5ccc985",
 			"Rev": "5ccc9857e3a95a4233a13e445831cb31b90e73a6"
+		},
+		{
+			"ImportPath": "github.com/rs/cors",
+			"Comment": "v1.6.0-2-g76f58f3",
+			"Rev": "76f58f330d76a55c5badc74f6212e8a15e742c77"
 		}
 	]
 }
