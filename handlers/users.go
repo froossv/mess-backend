@@ -20,10 +20,6 @@ type UserDet struct{
 }
 
 func Users(w http.ResponseWriter, r *http.Request){
-    w.Header().Set("Access-Control-Allow-Origin","*")
-    if (r).Method == "OPTIONS" {
-		return
-	}
     cUser:=UserDet{}
     user:=UserDet{}
     status:= Confirm{
