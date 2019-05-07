@@ -50,7 +50,7 @@ func Users(w http.ResponseWriter, r *http.Request){
         if user.Password == cUser.Password{
             fmt.Println("Exists")
             status.Status = "true"
-            status.Text = cUser.Name + cUser.Hostel 
+            status.Text = cUser.Name + "," + cUser.Hostel 
         }else{
             fmt.Println("Doesnt Exist")
             status.Status = "false"
