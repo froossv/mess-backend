@@ -12,6 +12,7 @@ import (
 type UserDet struct{
     Username int `json: username`
     Password int `json: password`
+    Name string `json: name`
     Hostel string `json: hostel`
 }
 
@@ -43,13 +44,13 @@ func Users(w http.ResponseWriter, r *http.Request){
         panic(errp)
     }
 
-    errr := db.QueryRow("SELECT reg,pwd,hostel FROM users WHERE reg = $1;", user.Username).Scan(&cUser.Username,&cUser.Password,&cUser.Hostel)
+    errr := db.QueryRow("SELECT reg,pwd,name,hostel FROM users WHERE reg = $1;", user.Username).Scan(&cUser.Username,&cUser.Password,&cUser.Name,&cUser.Hostel)
     if errr!=nil{
     }else{
         if user.Password == cUser.Password{
             fmt.Println("Exists")
             status.Status = "true"
-            status.Text = cUser.Hostel
+            status.Text = cUser.Name + cUser.Hostel 
         }else{
             fmt.Println("Doesnt Exist")
             status.Status = "false"
