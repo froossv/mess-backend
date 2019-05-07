@@ -9,10 +9,6 @@ import (
     "database/sql"
 )
 
-//type Confirm struct {
-//    Status string `json: status`
-//}
-
 type UserDet struct{
     Username int `json: username`
     Password int `json: password`
@@ -35,7 +31,6 @@ func Users(w http.ResponseWriter, r *http.Request){
     dburl := os.Getenv("DATABASE_URL")
     psqlInfo,_ := pq.ParseURL(dburl)
     psqlInfo += " sslmode=require"
-    //fmt.Println(psqlInfo)
     db,erro := sql.Open("postgres",psqlInfo)
     if erro != nil{
         fmt.Printf("Error in Validating")
@@ -66,7 +61,6 @@ func Users(w http.ResponseWriter, r *http.Request){
         panic(err)
     }
     w.Header().Set("Content-Type","application/json")
-    //w.Header().Set("Access-Control-Allow-Origin","*")
     w.WriteHeader(http.StatusOK)
     w.Write(statusJson)
 }
