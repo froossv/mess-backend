@@ -10,29 +10,18 @@ import (
     "os"
 )
 
-type studOrder struct{
-    day string `json:day`
-    reg int `json:reg`
-    bf1 string `json:bf`
-    bf2 string `json:bf`
-    lun1 string `json:lun`
-    lun2 string `json:lun`
-    din1 string `json:din`
-    din2 string `json:din`
-}
-
-func Orders(w http.ResponseWriter, r *http.Request){
+func PostMenu(w http.ResponseWriter, r *http.Request){
     currentTime:= time.Now()
-    order:= studOrder{}
+    menu:= Menu{}
     status:= Confirm{
         Status: "Error",
     }
 
-    err := json.NewDecoder(r.Body).Decode(&order)
+    err := json.NewDecoder(r.Body).Decode(&menu)
     if err != nil{
         panic(err)
     }
-    fmt.Println("Got these :",order.day,order.reg,order.bf1,order.bf2,order.bf1,order.lun2,order.din1,order.din2)
+    //fmt.Println("Got these :",menu.day,menu.reg,menu.bf1,menu.bf2,menu.bf1,menu.lun2,menu.din1,menu.din2)
 
     dburl := os.Getenv("DATABASE_URL")
     psqlInfo,_ := pq.ParseURL(dburl)

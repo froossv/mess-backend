@@ -22,16 +22,28 @@ var routes = Routes{
         handlers.Index,
     },
     Route{
-        "Menu",
+        "getOrders",
         "GET",
-        "/menu",
-        handlers.Menu,
+        "/orders",
+        handlers.GetOrders,
     },
     Route{
-        "Orders",
+        "postOrders",
         "POST",
         "/orders",
-        handlers.Orders,
+        handlers.PostOrders,
+    },
+    Route{
+        "getMenu",
+        "GET",
+        "/menu",
+        handlers.GetMenu,
+    },
+    Route{
+        "postMenu",
+        "POST",
+        "/menu",
+        handlers.PostMenu,
     },
     Route{
         "Users",

@@ -6,11 +6,6 @@ import (
     "encoding/json"
 )
 
-type Confirm struct {
-    Status string `json: status`
-    Text string `json: text`
-}
-
 func Index(w http.ResponseWriter, r *http.Request){
     fmt.Fprintln(w, "Server is Up")
     status := Confirm{
