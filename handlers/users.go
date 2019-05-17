@@ -22,6 +22,8 @@ func Users(w http.ResponseWriter, r *http.Request){
     db := GetDB();
     errr := db.QueryRow("SELECT reg,pwd,name,hostel FROM users WHERE reg = $1;", user.Username).Scan(&cUser.Username,&cUser.Password,&cUser.Name,&cUser.Hostel)
     if errr!=nil{
+        fmt.Println(errr)
+        panic(errr)
     }else{
         if user.Password == cUser.Password{
             fmt.Println("Exists")
