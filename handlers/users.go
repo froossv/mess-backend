@@ -4,9 +4,6 @@ import (
     "fmt"
     "net/http"
     "encoding/json"
-    "github.com/lib/pq"
-    "os"
-    "database/sql"
 )
 
 type UserDet struct{
@@ -28,29 +25,15 @@ func Users(w http.ResponseWriter, r *http.Request){
     if err != nil{
         panic(err)
     }
-    fmt.Println("Got these :",user.Username,user.Password,user.Hostel)
-    dburl := os.Getenv("DATABASE_URL")
-    psqlInfo,_ := pq.ParseURL(dburl)
-    psqlInfo += " sslmode=require"
-    db,erro := sql.Open("postgres",psqlInfo)
-    if erro != nil{
-        fmt.Printf("Error in Validating")
-        panic(erro)
-    }
-    defer db.Close()
-    errp := db.Ping()
-    if errp != nil{
-        fmt.Printf("Error in Connecting")
-        panic(errp)
-    }
-
+    fmt.Println("Got these :",user.Username,user.Password)
+    db := GetDB();
     errr := db.QueryRow("SELECT reg,pwd,name,hostel FROM users WHERE reg = $1;", user.Username).Scan(&cUser.Username,&cUser.Password,&cUser.Name,&cUser.Hostel)
     if errr!=nil{
     }else{
         if user.Password == cUser.Password{
             fmt.Println("Exists")
             status.Status = "true"
-            status.Text = cUser.Name + "," + cUser.Hostel 
+            status.Text = cUser.Name + "," + cUser.Hostel
         }else{
             fmt.Println("Doesnt Exist")
             status.Status = "false"
