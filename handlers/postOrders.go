@@ -1,11 +1,11 @@
 package handlers
 
 import (
-    "fmt"
+    //"fmt"
     "net/http"
     //"encoding/json"
 )
 
 func PostOrders(w http.ResponseWriter, r *http.Request){
-    
+
 }
