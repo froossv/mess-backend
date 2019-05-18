@@ -49,6 +49,12 @@ var routes = Routes{
         "Users",
         "POST",
         "/users",
-        handlers.Users,
+        handlers.PostUser,
+    },
+    Route{
+        "Users",
+        "PUT",
+        "/users",
+        handlers.PutUser,
     },
 }

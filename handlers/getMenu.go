@@ -11,7 +11,6 @@ import (
 )
 
 func GetMenu(w http.ResponseWriter, r *http.Request){
-    fmt.Println("We are in getMenu!")
     //currentDate := time.Now()
     //beforeDate := time.Now().AddDate(0,0,-1);
     //todayMenu := Menu{}

@@ -6,7 +6,7 @@ import (
     "encoding/json"
 )
 
-func Users(w http.ResponseWriter, r *http.Request){
+func PostUser(w http.ResponseWriter, r *http.Request){
     cUser:=UserDet{}
     user:=UserDet{}
     status:= Confirm{
@@ -20,7 +20,7 @@ func Users(w http.ResponseWriter, r *http.Request){
     }
     fmt.Println("Got these :",user.Username,user.Password)
     db := GetDB();
-    errr := db.QueryRow("SELECT reg,pwd,name,hostel FROM users WHERE reg = $1;", user.Username).Scan(&cUser.Username,&cUser.Password,&cUser.Name,&cUser.Hostel)
+    errr := db.QueryRow("SELECT reg,pwd,name,hostel,verified FROM users WHERE reg = $1;", user.Username).Scan(&cUser.Username,&cUser.Password,&cUser.Name,&cUser.Hostel,&cUser.Verified)
     if errr!=nil{
         fmt.Println(errr)
         panic(errr)
@@ -28,7 +28,7 @@ func Users(w http.ResponseWriter, r *http.Request){
         if user.Password == cUser.Password{
             fmt.Println("Exists")
             status.Status = "true"
-            status.Text = cUser.Name + "," + cUser.Hostel
+            status.Text = cUser.Name + "," + cUser.Hostel + "," + cUser.Verified
         }else{
             fmt.Println("Doesnt Exist")
             status.Status = "false"

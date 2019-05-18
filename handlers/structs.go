@@ -5,6 +5,7 @@ type UserDet struct{
     Password int `json: password`
     Name string `json: name`
     Hostel string `json: hostel`
+    Verified string `json: verified`
 } //users
 
 type Menu struct{
