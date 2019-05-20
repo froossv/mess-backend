@@ -24,7 +24,7 @@ func VerUser(w http.ResponseWriter, r *http.Request){
         if(code.Code == dbcode){
             status.Status = "true"
             _,erre := db.Exec("UPDATE users SET verified = 'true' WHERE reg = $1",code.Username)
-            _,errd := db.Exec("DELETE FROM users WHERE reg = $1",code.Username)
+            _,errd := db.Exec("DELETE FROM codes WHERE reg = $1",code.Username)
             if(erre != nil && errd != nil){
                 goto EXIT
             }
