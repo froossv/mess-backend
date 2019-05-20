@@ -20,7 +20,7 @@ func VerUser(w http.ResponseWriter, r *http.Request){
     fmt.Println("Got these :",code.Username,code.Code)
     db := GetDB();
     error := db.QueryRow("SELECT code FROM codes WHERE reg = $1",code.Username).Scan(&dbcode)
-    if(error!=nil){
+    if(error == nil){
         if(code.Code == dbcode){
             status.Status = "true"
             _,erre := db.Exec("UPDATE users SET verified = 'true' WHERE reg = $1",code.Username)
@@ -28,7 +28,6 @@ func VerUser(w http.ResponseWriter, r *http.Request){
                 panic(erre)
             }
         }else{
-            panic(err)
             status.Status = "false"
         }
     }
