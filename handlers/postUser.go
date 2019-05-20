@@ -23,7 +23,7 @@ func PostUser(w http.ResponseWriter, r *http.Request){
     errr := db.QueryRow("SELECT reg,pwd,name,hostel,verified FROM users WHERE reg = $1;", user.Username).Scan(&cUser.Username,&cUser.Password,&cUser.Name,&cUser.Hostel,&cUser.Verified)
     if errr!=nil{
         fmt.Println(errr)
-        panic(errr)
+        status.Status = "false"
     }else{
         if user.Password == cUser.Password{
             fmt.Println("Exists")
