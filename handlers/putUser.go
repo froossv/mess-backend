@@ -21,7 +21,7 @@ func PutUser(w http.ResponseWriter, r *http.Request){
     db := GetDB();
 
     //check if already exists in users
-    _,errr := db.Exec("SELECT * FROM users WHERE reg = $1",user.Username)
+    _,errr := db.QueryRow("SELECT * FROM users WHERE reg = $1",user.Username)
     if(errr != nil){
         //he no exist
         fmt.Println(errr)
