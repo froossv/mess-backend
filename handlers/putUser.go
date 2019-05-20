@@ -24,6 +24,7 @@ func PutUser(w http.ResponseWriter, r *http.Request){
     _,errr := db.Exec("SELECT * FROM users WHERE reg = $1",user.Username)
     if(errr != nil){
         //he no exist
+        fmt.Println(errr)
         fmt.Println("!Users")
         //check if he exists in pwi
         errp := db.QueryRow("SELECT reg,name,hostel FROM pwi WHERE reg = $1",user.Username).Scan(&pUser.Username,&pUser.Name,&pUser.Hostel)
