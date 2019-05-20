@@ -49,8 +49,9 @@ func PutUser(w http.ResponseWriter, r *http.Request){
                 goto EXIT
             }
         }
-    }else{
+    }else if(errr == nil){
         //he exist
+        fmt.Println("Error is not nil")
         status.Status = "Exists"
         goto EXIT
     }
