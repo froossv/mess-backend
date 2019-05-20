@@ -2,7 +2,7 @@ package handlers
 
 type UserDet struct{
     Username int `json: username`
-    Password int `json: password`
+    Password string `json: password`
     Name string `json: name`
     Hostel string `json: hostel`
     Verified string `json: verified`

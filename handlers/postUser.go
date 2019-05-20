@@ -30,7 +30,7 @@ func PostUser(w http.ResponseWriter, r *http.Request){
             status.Status = "true"
             status.Text = cUser.Name + "," + cUser.Hostel + "," + cUser.Verified
         }else{
-            fmt.Println("Doesnt Exist")
+            fmt.Println("Wrong Password")
             status.Status = "false"
         }
     }
