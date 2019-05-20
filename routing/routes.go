@@ -16,45 +16,51 @@ type Routes []Route
 
 var routes = Routes{
     Route{
-        "Index",
+        "Get Date Time",
         "GET",
         "/",
         handlers.Index,
     },
     Route{
-        "getOrders",
+        "Return Order(s)",
         "GET",
         "/orders",
         handlers.GetOrders,
     },
     Route{
-        "postOrders",
+        "Add an Order",
         "POST",
         "/orders",
         handlers.PostOrders,
     },
     Route{
-        "getMenu",
+        "Return Menu",
         "GET",
         "/menu",
         handlers.GetMenu,
     },
     Route{
-        "postMenu",
+        "Add Menu",
         "POST",
         "/menu",
         handlers.PostMenu,
     },
     Route{
-        "Users",
+        "Login",
         "POST",
         "/users",
         handlers.PostUser,
     },
     Route{
-        "Users",
+        "Sign Up",
         "PUT",
         "/users",
         handlers.PutUser,
+    },
+    Route{
+        "postCodes",
+        "POST",
+        "/codes",
+        handlers.VerUser,
     },
 }

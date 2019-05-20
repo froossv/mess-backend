@@ -4,6 +4,7 @@ import (
     "fmt"
     "net/http"
     "encoding/json"
+    "math/rand"
 )
 
 func PutUser(w http.ResponseWriter, r *http.Request){
@@ -24,7 +25,6 @@ func PutUser(w http.ResponseWriter, r *http.Request){
     errr := db.QueryRow("SELECT * FROM users WHERE reg = $1",user.Username)
     if(errr != nil){
         //he no exist
-        fmt.Println(errr)
         fmt.Println("!Users")
         //check if he exists in pwi
         errp := db.QueryRow("SELECT reg,name,hostel FROM pwi WHERE reg = $1",user.Username).Scan(&pUser.Username,&pUser.Name,&pUser.Hostel)
@@ -35,15 +35,17 @@ func PutUser(w http.ResponseWriter, r *http.Request){
             goto EXIT
         }else{
             //he exist in pwi
-            fmt.Println("PWI (Y)")
+            fmt.Println("PWI")
             //insert him into ours
             _,erra := db.Exec("INSERT INTO users VALUES ($1,$2,$3,$4,'false');",user.Username,user.Password,pUser.Name,pUser.Hostel)
-            if(erra!=nil){
+            code := genRand(8)
+            _,errc := db.Exec("INSERT INTO codes VALUES ($1,$2);",user.Username,code)
+            if(erra!=nil && errc!=nil){
                 //insert him to users failed
                 status.Status = "Fault"
                 goto EXIT
             }else{
-                fmt.Println("Users (Y)")
+                fmt.Println("Users")
                 //inserted him into users
                 status.Status = "OK"
                 goto EXIT
@@ -63,4 +65,13 @@ func PutUser(w http.ResponseWriter, r *http.Request){
     w.Header().Set("Content-Type","application/json")
     w.WriteHeader(http.StatusOK)
     w.Write(statusJson)
+}
+
+func genRand(n int) string {
+    var letter = []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+    b := make([]rune, n)
+    for i := range b {
+        b[i] = letter[rand.Intn(len(letter))]
+    }
+    return string(b)
 }

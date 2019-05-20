@@ -8,6 +8,11 @@ type UserDet struct{
     Verified string `json: verified`
 } //users
 
+type CodeDet struct{
+    Username int `json: username`
+    Code string `json: code`
+}
+
 type Menu struct{
     Day string `json:day`
     Bf1 string `json:bf1`
