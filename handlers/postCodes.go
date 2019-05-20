@@ -28,6 +28,7 @@ func VerUser(w http.ResponseWriter, r *http.Request){
                 panic(erre)
             }
         }else{
+            panic(err)
             status.Status = "false"
         }
     }
