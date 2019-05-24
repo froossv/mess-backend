@@ -12,6 +12,7 @@ import (
 
 func GetMenu(w http.ResponseWriter, r *http.Request){
     db := GetDB()
+    defer db.Close()
     menu := Menu{}
     status := Confirm{
         Status: "error",

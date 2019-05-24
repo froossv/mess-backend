@@ -1,5 +1,15 @@
 package handlers
 
+type Order struct{
+    Username int `json:username`
+    Bf1 int `json:bf1`
+    Bf2 int `json:bf2`
+    Lun1 int `json:lun1`
+    Lun2 int `json:lun2`
+    Din1 int `json:din1`
+    Din2 int `json:din2`
+}
+
 type UserDet struct{
     Username int `json: username`
     Password string `json: password`
@@ -28,8 +38,6 @@ type Menu struct{
     Din2 string `json:din2`
     Din2c int `json:din2c`
 } //postmenu
-
-type Menus []Menu //postMenu
 
 type Confirm struct {
     Status string `json: status`

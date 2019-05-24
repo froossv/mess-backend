@@ -21,6 +21,7 @@ func PostMenu(w http.ResponseWriter, r *http.Request){
     fmt.Println("Got these :",menu.Bf1,menu.Bf1c,menu.Bf2,menu.Bf2c,menu.Lun1,menu.Lun1c,menu.Lun2,menu.Lun2c,menu.Din1,menu.Din1c,menu.Din2,menu.Din2c)
     menu.Day = currentTime.Format("2006-01-02")
     db := GetDB()
+    defer db.Close()
     _,errr := db.Exec("INSERT INTO menu VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13);",menu.Day,menu.Bf1,menu.Bf1c,menu.Bf2,menu.Bf2c,menu.Lun1,menu.Lun1c,menu.Lun2,menu.Lun2c,menu.Din1,menu.Din1c,menu.Din2,menu.Din2c)
     if errr!=nil{
         status.Text = "Error Inserting into table"

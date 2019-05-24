@@ -18,7 +18,8 @@ func VerUser(w http.ResponseWriter, r *http.Request){
         panic(err)
     }
     fmt.Println("Got these :",code.Username,code.Code)
-    db := GetDB();
+    db := GetDB()
+    defer db.Close()
     error := db.QueryRow("SELECT code FROM codes WHERE reg = $1",code.Username).Scan(&dbcode)
     if(error == nil){
         if(code.Code == dbcode){

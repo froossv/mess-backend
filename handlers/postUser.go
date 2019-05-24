@@ -19,7 +19,8 @@ func PostUser(w http.ResponseWriter, r *http.Request){
         panic(err)
     }
     fmt.Println("Got these :",user.Username,user.Password)
-    db := GetDB();
+    db := GetDB()
+    defer db.Close()
     errr := db.QueryRow("SELECT reg,pwd,name,hostel,verified FROM users WHERE reg = $1;", user.Username).Scan(&cUser.Username,&cUser.Password,&cUser.Name,&cUser.Hostel,&cUser.Verified)
     if errr!=nil{
         fmt.Println(errr)

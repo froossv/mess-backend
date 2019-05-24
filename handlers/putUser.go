@@ -19,8 +19,9 @@ func PutUser(w http.ResponseWriter, r *http.Request){
         panic(err)
     }
     fmt.Println("Got these :",user.Username,user.Password)
-    db := GetDB();
-
+    db := GetDB()
+    defer db.Close()
+    
     //check if already exists in users
     errr := db.QueryRow("SELECT * FROM users WHERE reg = $1",user.Username)
     if(errr != nil){
