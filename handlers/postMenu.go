@@ -12,7 +12,7 @@ func PostMenu(w http.ResponseWriter, r *http.Request){
     menu:= Menu{}
     status:= Confirm{
         Status: "Error",
-        Text: "Inserted Record at " + currentTime.String(),
+        Text: "Inserted Record on " + currentTime.String(),
     }
     err := json.NewDecoder(r.Body).Decode(&menu)
     if err != nil{

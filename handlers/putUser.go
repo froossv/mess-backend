@@ -21,7 +21,7 @@ func PutUser(w http.ResponseWriter, r *http.Request){
     fmt.Println("Got these :",user.Username,user.Password)
     db := GetDB()
     defer db.Close()
-    
+
     //check if already exists in users
     errr := db.QueryRow("SELECT * FROM users WHERE reg = $1",user.Username)
     if(errr != nil){
@@ -39,7 +39,7 @@ func PutUser(w http.ResponseWriter, r *http.Request){
             fmt.Println("PWI")
             //insert him into ours
             _,erra := db.Exec("INSERT INTO users VALUES ($1,$2,$3,$4,'false');",user.Username,user.Password,pUser.Name,pUser.Hostel)
-            code := genRand(8)
+            code := GenRand(8)
             _,errc := db.Exec("INSERT INTO codes VALUES ($1,$2);",user.Username,code)
             if(erra!=nil && errc!=nil){
                 //insert him to users failed
@@ -66,13 +66,4 @@ func PutUser(w http.ResponseWriter, r *http.Request){
     w.Header().Set("Content-Type","application/json")
     w.WriteHeader(http.StatusOK)
     w.Write(statusJson)
-}
-
-func genRand(n int) string {
-    var letter = []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
-    b := make([]rune, n)
-    for i := range b {
-        b[i] = letter[rand.Intn(len(letter))]
-    }
-    return string(b)
 }

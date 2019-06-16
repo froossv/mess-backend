@@ -7,8 +7,8 @@ import (
   "fmt"
 )
 
-//0 -> Tomorrow's Menu
-//1 -> Today's Menu
+//0 -> Today's Menu
+//1 -> Tomorrow's Menu
 
 func GetMenu(w http.ResponseWriter, r *http.Request){
     db := GetDB()
