@@ -24,7 +24,7 @@ func GetDB() (*sql.DB){
     }
     return db
 }
-
+/*
 func CreateTable() string{
     date := time.Now()
     db := GetDB()
@@ -36,8 +36,9 @@ func CreateTable() string{
     }
     return "orders_" + date.Month().String()
 }
+*/
 
-func G89-enRand(n int) string {
+func GenRand(n int) string {
     var letter = []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
     b := make([]rune, n)
     for i := range b {
