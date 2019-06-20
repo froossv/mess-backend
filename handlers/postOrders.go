@@ -21,9 +21,9 @@ func PostOrders(w http.ResponseWriter, r *http.Request){
     fmt.Println("Got these:",order)
 
     db:= GetDB();
-    tableName := CreateTable()
-    fmt.Println(tableName)
-    _,erre := db.Exec("INSERT INTO "+tableName+" VALUES ($1,$2,$3,$4,$5,$6,$7,$8);",date.Format("2006-01-02").AddDate(0,0,1),order.Username,order.Bf1,order.Bf2,order.Lun1,order.Lun2,order.Din1,order.Din2)
+    //tableName := CreateTable()
+    //fmt.Println(tableName)
+    _,erre := db.Exec("INSERT INTO orders VALUES ($1,$2,$3,$4,$5,$6,$7,$8);",date.AddDate(0,0,1).Format("2006-01-02"),order.Username,order.Bf1,order.Bf2,order.Lun1,order.Lun2,order.Din1,order.Din2)
     if(erre == nil){
         status.Status = "true"
     }else{

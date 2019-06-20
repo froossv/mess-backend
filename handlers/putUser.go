@@ -4,7 +4,6 @@ import (
     "fmt"
     "net/http"
     "encoding/json"
-    "math/rand"
 )
 
 func PutUser(w http.ResponseWriter, r *http.Request){
