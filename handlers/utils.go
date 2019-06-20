@@ -5,7 +5,7 @@ import(
     "database/sql"
     "os"
     "fmt"
-    "time"
+    "math/rand"
 )
 
 func GetDB() (*sql.DB){
