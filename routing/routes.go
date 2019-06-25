@@ -46,6 +46,18 @@ var routes = Routes{
         handlers.PostMenu,
     },
     Route{
+        "Add Menu Item",
+        "PUT",
+        "/menu",
+        handlers.PutMenu,
+    },
+    Route{
+        "Delete Menu Item",
+        "DELETE",
+        "/menu",
+        handlers.DeleteMenu,
+    },
+    Route{
         "Login",
         "POST",
         "/users",
