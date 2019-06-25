@@ -70,9 +70,21 @@ var routes = Routes{
         handlers.PutUser,
     },
     Route{
-        "postCodes",
+        "Verify Codes",
         "POST",
         "/codes",
         handlers.VerUser,
+    },
+    Route{
+        "Forgot Password",
+        "PUT",
+        "/pass",
+        handlers.ForgotPass,
+    },
+    Route{
+        "Change Password",
+        "POST",
+        "/pass",
+        handlers.ChangePass,
     },
 }
