@@ -45,6 +45,16 @@ type Menu struct{
     Din2c int `json:din2c`
 } //postmenu
 
+type Code struct{
+    Username int `json: username`
+    bf1 string `json: bf1`
+    bf2 string `json: bf2`
+    lun1 string `json: lun1`
+    lun2 string `json: lun2`
+    din1 string `json: din1`
+    din2 string `json: din2`
+}
+
 type Confirm struct {
     Status string `json: status`
     Text string `json: text`
