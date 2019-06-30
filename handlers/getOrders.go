@@ -11,7 +11,14 @@ import (
 func GetOrders(w http.ResponseWriter, r *http.Request){
     db := GetDB()
     defer db.Close()
-    codes := Code{}
+    codes := Code{
+        Bf1: "null",
+        Bf2: "null",
+        Lun1: "null",
+        Lun2: "null",
+        Din1: "null",
+        Din2: "null"
+    }
     var table string
     option := r.URL.Query()["day"][0]
     switch option {
