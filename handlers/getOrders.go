@@ -17,7 +17,7 @@ func GetOrders(w http.ResponseWriter, r *http.Request){
         Lun1: "null",
         Lun2: "null",
         Din1: "null",
-        Din2: "null"
+        Din2: "null",
     }
     var table string
     option := r.URL.Query()["day"][0]
