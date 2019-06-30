@@ -4,7 +4,6 @@ import (
     "fmt"
     "net/http"
     "encoding/json"
-    "strconv"
 )
 
 //0 -> today
@@ -15,8 +14,6 @@ func GetOrders(w http.ResponseWriter, r *http.Request){
     codes := Code{}
     var table string
     option := r.URL.Query()["day"][0]
-    regno32,_ := strconv.ParseInt(r.URL.Query()["regno"][0],10,32)
-    regno := int(regno32)
     switch option {
         case "0":{
             table = "order_codes_today"
@@ -30,7 +27,7 @@ func GetOrders(w http.ResponseWriter, r *http.Request){
     if erro != nil{
         fmt.Println(erro)
     }
-    codes.Username = regno
+    //codes.Username = regno
     codeJson,err := json.Marshal(codes)
     if err!=nil{
         panic(err)

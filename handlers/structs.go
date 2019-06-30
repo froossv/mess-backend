@@ -46,7 +46,7 @@ type Menu struct{
 } //postmenu
 
 type Code struct{
-    Username int `json: username`
+    //Username int `json: username`
     Bf1 string `json: bf1`
     Bf2 string `json: bf2`
     Lun1 string `json: lun1`
