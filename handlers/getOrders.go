@@ -19,9 +19,9 @@ func GetOrders(w http.ResponseWriter, r *http.Request){
         Din1: "null",
         Din2: "null",
     }
-    var table string
+    var table string = "dummy"
     option := r.URL.Query()["day"][0]
-    fmt.Println(option)
+    fmt.Sprintf("Orders option = %s",option)
     switch option {
         case "0":{
             table = "order_codes_today"
