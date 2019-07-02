@@ -13,7 +13,7 @@ type Order struct{
 type UserDet struct{
     Username int `json: username`
     Password string `json: password`
-    Name string `json: name`
+    Name string `json: nickname`
     Hostel string `json: hostel`
     Verified string `json: verified`
 } //users
