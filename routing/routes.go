@@ -58,6 +58,12 @@ var routes = Routes{
         handlers.DeleteMenu,
     },
     Route{
+        "Check RegNum",
+        "GET",
+        "/users",
+        handlers.GetUser,
+    },
+    Route{
         "Login",
         "POST",
         "/users",
