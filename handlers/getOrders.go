@@ -30,6 +30,7 @@ func GetOrders(w http.ResponseWriter, r *http.Request){
         }
     }
     query := "SELECT bf1,bf2,lun1,lun2,din1,din2 FROM " + table + " WHERE regno = " + r.URL.Query()["regno"][0] +";"
+    fmt.Println(query)
     erro := db.QueryRow(query).Scan(&codes.Bf1,&codes.Bf2,&codes.Lun1,&codes.Lun2,&codes.Din1,&codes.Din2)
     if erro != nil{
         fmt.Println(erro)
