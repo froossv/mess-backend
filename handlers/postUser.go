@@ -23,11 +23,11 @@ func PostUser(w http.ResponseWriter, r *http.Request){
     if err != nil{
         panic(err)
     }
-    fmt.Println("Got these :",user.Username,user.Password,user.Name)
+    fmt.Println("Got these :",user.Username,user.Password,user.Nickname)
     switch option {
         //user
         case "0": {
-            errr := db.QueryRow("SELECT reg,pwd,name,hostel,verified FROM users WHERE reg = $1;", user.Username).Scan(&cUser.Username,&cUser.Password,&cUser.Name,&cUser.Hostel,&cUser.Verified)
+            errr := db.QueryRow("SELECT reg,pwd,name,hostel,verified FROM users WHERE reg = $1;", user.Username).Scan(&cUser.Username,&cUser.Password,&cUser.Nickname,&cUser.Hostel,&cUser.Verified)
             if errr!=nil{
                 fmt.Println(errr)
                 status.Status = "false"
@@ -35,7 +35,7 @@ func PostUser(w http.ResponseWriter, r *http.Request){
                 if user.Password == cUser.Password{
                     fmt.Println("Exists")
                     status.Status = "true"
-                    status.Text = cUser.Name + "," + cUser.Hostel + "," + cUser.Verified
+                    status.Text = cUser.Nickname + "," + cUser.Hostel + "," + cUser.Verified
                 }else{
                     fmt.Println("Wrong Password")
                     status.Status = "false"
@@ -44,7 +44,7 @@ func PostUser(w http.ResponseWriter, r *http.Request){
         }
         //mess
         case "1": {
-            errs := db.QueryRow("SELECT username,password,name FROM mess WHERE username = $1;", user.Username).Scan(&cUser.Username,&cUser.Password,&cUser.Name)
+            errs := db.QueryRow("SELECT username,password,name FROM mess WHERE username = $1;", user.Username).Scan(&cUser.Username,&cUser.Password,&cUser.Nickname)
             if errs!=nil{
                 fmt.Println(errs)
                 status.Status = "false"
@@ -52,7 +52,7 @@ func PostUser(w http.ResponseWriter, r *http.Request){
                 if user.Password == cUser.Password{
                     fmt.Println("Exists")
                     status.Status = "true"
-                    status.Text = cUser.Name
+                    status.Text = cUser.Nickname
                 }else{
                     fmt.Println("Wrong Password")
                     status.Status = "false"
@@ -61,10 +61,10 @@ func PostUser(w http.ResponseWriter, r *http.Request){
         }
         //Nickname
         case "2": {
-            _,errp := db.Exec("UPDATE users SET name = $1 WHERE reg = $2;",user.Name,user.Username)
+            _,errp := db.Exec("UPDATE users SET name = $1 WHERE reg = $2;",user.Nickname,user.Username)
             if errp == nil{
                 status.Status = "true"
-                status.Text = user.Name
+                status.Text = user.Nickname
             }else{
                 fmt.Println(errp)
                 status.Status = "false"

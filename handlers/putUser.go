@@ -17,7 +17,7 @@ func PutUser(w http.ResponseWriter, r *http.Request){
     if(err!=nil){
         panic(err)
     }
-    fmt.Println("Got these :",user.Username,user.Password,user.Name)
+    fmt.Println("Got these :",user.Username,user.Password,user.Nickname)
     db := GetDB()
     defer db.Close()
 
@@ -37,7 +37,7 @@ func PutUser(w http.ResponseWriter, r *http.Request){
             //he exist in pwi
             fmt.Println("PWI")
             //insert him into ours
-            _,erra := db.Exec("INSERT INTO users VALUES ($1,$2,$3,$4,'false');",user.Username,user.Password,user.Name,pUser.Hostel)
+            _,erra := db.Exec("INSERT INTO users VALUES ($1,$2,$3,$4,'false');",user.Username,user.Password,user.Nickname,pUser.Hostel)
             code := GenRand(8)
             _,errc := db.Exec("INSERT INTO codes VALUES ($1,$2);",user.Username,code)
             if(erra!=nil && errc!=nil){
