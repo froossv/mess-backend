@@ -31,7 +31,6 @@ func PutUser(w http.ResponseWriter, r *http.Request){
         if(errp != nil){
             //he no exists in pwi
             fmt.Println("!PWI")
-            status.Status = "Wrong"
             goto EXIT
         }else{
             //he exist in pwi
@@ -42,7 +41,6 @@ func PutUser(w http.ResponseWriter, r *http.Request){
             _,errc := db.Exec("INSERT INTO codes VALUES ($1,$2);",user.Username,code)
             if(erra!=nil && errc!=nil){
                 //insert him to users failed
-                status.Status = "Fault"
                 goto EXIT
             }else{
                 fmt.Println("Users")
@@ -54,7 +52,6 @@ func PutUser(w http.ResponseWriter, r *http.Request){
     }else if(errr == nil){
         //he exist
         fmt.Println("Error is not nil")
-        status.Status = "Exists"
         goto EXIT
     }
     EXIT:
