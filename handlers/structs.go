@@ -23,12 +23,6 @@ type CodeDet struct{
     Code string `json: code`
 }
 
-type pass struct{
-    Username int `json: username`
-    Old string `json: old`
-    New string `json: new`
-}
-
 type Menu struct{
     Day string `json:day`
     Bf1 string `json:bf1`

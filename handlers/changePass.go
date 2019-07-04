@@ -6,7 +6,7 @@ import(
 )
 
 func ChangePass(w http.ResponseWriter, r *http.Request){
-    passwd := pass{}
+    passwd := UserDet{}
     db := GetDB()
     status := Confirm{
         Status: "true",
@@ -17,7 +17,7 @@ func ChangePass(w http.ResponseWriter, r *http.Request){
     if err!= nil{
         panic(err)
     }
-    _,erra := db.Exec("UPDATE users SET pwd = $1 WHERE reg = $2",passwd.New,passwd.Username)
+    _,erra := db.Exec("UPDATE users SET pwd = $1 WHERE reg = $2",passwd.Password,passwd.Username)
     if erra!=nil{
         status.Status = "false"
     }
