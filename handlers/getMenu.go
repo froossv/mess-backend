@@ -14,7 +14,20 @@ import (
 func GetMenu(w http.ResponseWriter, r *http.Request){
     db := GetDB()
     defer db.Close()
-    menu := Menu{}
+    menu := Menu{
+        Bf1: "null",
+        Bf1c: 0,
+        Bf2: "null",
+        Bf2c: 0,
+        Lun1: "null",
+        Lun1c: 0,
+        Lun2: "null",
+        Lun2c: 0,
+        Din1: "null",
+        Din1c: 0,
+        Din2: "null",
+        Din2c: 0,
+    }
     status := Confirm{
         Status: "error",
         Text: "",
@@ -25,8 +38,10 @@ func GetMenu(w http.ResponseWriter, r *http.Request){
     switch option {
         case "0":
             date = time.Now()
+            menu.Day = date.Format("2006-01-02")
         case "1":
             date = time.Now().AddDate(0,0,1)
+            menu.Day = date.Format("2006-01-02")
         case "2":
             item := returnMenu()
             status.Status = "menu"
