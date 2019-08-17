@@ -93,4 +93,10 @@ var routes = Routes{
         "/pass",
         handlers.ChangePass,
     },
+    /*Route{
+        "Get History",
+        "GET",
+        "/history",
+        handlers.History,
+    },*/
 }
