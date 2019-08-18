@@ -93,10 +93,10 @@ var routes = Routes{
         "/pass",
         handlers.ChangePass,
     },
-    /*Route{
+    Route{
         "Get History",
         "GET",
         "/history",
-        handlers.History,
-    },*/
+        handlers.GetHistory,
+    },
 }
