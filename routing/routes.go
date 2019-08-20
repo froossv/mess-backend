@@ -52,12 +52,6 @@ var routes = Routes{
         handlers.PutMenu,
     },
     Route{
-        "Delete Menu Item",
-        "DELETE",
-        "/menu",
-        handlers.DeleteMenu,
-    },
-    Route{
         "Check RegNum",
         "GET",
         "/users",
@@ -80,6 +74,12 @@ var routes = Routes{
         "POST",
         "/codes",
         handlers.VerUser,
+    },
+    Route{
+        "Get Codes",
+        "GET",
+        "/codes",
+        handlers.GetCodes,
     },
     Route{
         "Forgot Password",
