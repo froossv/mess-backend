@@ -16,7 +16,13 @@ type UserDet struct{
     Nickname string `json: nickname`
     Hostel string `json: hostel`
     Verified string `json: verified`
-} //users
+}
+
+type messUser struct{
+    Username string `json: username`
+    Password string `json: password`
+}
+ //users
 
 type CodeDet struct{
     Username int `json: username`

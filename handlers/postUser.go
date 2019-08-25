@@ -10,8 +10,9 @@ import (
 //1 -> Mess
 //2 -> Nickname
 func PostUser(w http.ResponseWriter, r *http.Request){
-    cUser:=UserDet{}
-    user:=UserDet{}
+    cUser := UserDet{}
+    muser := messUser{}
+    suser := UserDet{}
     status:= Confirm{
         Status: "false",
         Text: "",
@@ -19,20 +20,20 @@ func PostUser(w http.ResponseWriter, r *http.Request){
     db := GetDB()
     defer db.Close()
     option := r.URL.Query()["user"][0]
-    err := json.NewDecoder(r.Body).Decode(&user)
-    if err != nil{
-        panic(err)
-    }
-    fmt.Println("Got these :",user.Username,user.Password,user.Nickname)
     switch option {
         //user
         case "0": {
-            errr := db.QueryRow("SELECT reg,pwd,name,hostel,verified FROM users WHERE reg = $1;", user.Username).Scan(&cUser.Username,&cUser.Password,&cUser.Nickname,&cUser.Hostel,&cUser.Verified)
+            err := json.NewDecoder(r.Body).Decode(&suser)
+            if(err != nil){
+                fmt.Println(err)
+            }
+            fmt.Println("Got these :",suser.Username,suser.Password,suser.Nickname)
+            errr := db.QueryRow("SELECT reg,pwd,name,hostel,verified FROM users WHERE reg = $1;", suser.Username).Scan(&cUser.Username,&cUser.Password,&cUser.Nickname,&cUser.Hostel,&cUser.Verified)
             if errr!=nil{
                 fmt.Println(errr)
                 status.Status = "false"
             }else{
-                if user.Password == cUser.Password{
+                if suser.Password == cUser.Password{
                     fmt.Println("Exists")
                     status.Status = "true"
                     status.Text = cUser.Nickname + "," + cUser.Hostel + "," + cUser.Verified
@@ -44,12 +45,17 @@ func PostUser(w http.ResponseWriter, r *http.Request){
         }
         //mess
         case "1": {
-            errs := db.QueryRow("SELECT username,password,name FROM mess WHERE username = $1;", user.Username).Scan(&cUser.Username,&cUser.Password,&cUser.Nickname)
+            err := json.NewDecoder(r.Body).Decode(&muser)
+            if(err != nil){
+                fmt.Println(err)
+            }
+            fmt.Println("Got these :",muser.Username,muser.Password)
+            errs := db.QueryRow("SELECT username,password,name FROM mess WHERE username = $1;", muser.Username).Scan(&cUser.Username,&cUser.Password,&cUser.Nickname)
             if errs!=nil{
                 fmt.Println(errs)
                 status.Status = "false"
             }else{
-                if user.Password == cUser.Password{
+                if muser.Password == cUser.Password{
                     fmt.Println("Exists")
                     status.Status = "true"
                     status.Text = cUser.Nickname
@@ -61,10 +67,15 @@ func PostUser(w http.ResponseWriter, r *http.Request){
         }
         //Nickname
         case "2": {
-            _,errp := db.Exec("UPDATE users SET name = $1 WHERE reg = $2;",user.Nickname,user.Username)
+            err := json.NewDecoder(r.Body).Decode(&suser)
+            if(err != nil){
+                fmt.Println(err)
+            }
+            fmt.Println("Got these :",suser.Username,suser.Password,suser.Nickname)
+            _,errp := db.Exec("UPDATE users SET name = $1 WHERE reg = $2;",suser.Nickname,suser.Username)
             if errp == nil{
                 status.Status = "true"
-                status.Text = user.Nickname
+                status.Text = suser.Nickname
             }else{
                 fmt.Println(errp)
                 status.Status = "false"
@@ -72,6 +83,9 @@ func PostUser(w http.ResponseWriter, r *http.Request){
         }
     }
     statusJson,err := json.Marshal(status)
+    if(err != nil){
+        fmt.Println(err)
+    }
     w.Header().Set("Content-Type","application/json")
     w.WriteHeader(http.StatusOK)
     w.Write(statusJson)
