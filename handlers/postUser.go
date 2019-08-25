@@ -50,7 +50,8 @@ func PostUser(w http.ResponseWriter, r *http.Request){
                 fmt.Println(err)
             }
             fmt.Println("Got these :",muser.Username,muser.Password)
-            errs := db.QueryRow("SELECT username,password,name FROM mess WHERE username = " + muser.Username + ";").Scan(&cUser.Username,&cUser.Password,&cUser.Nickname)
+            query := "SELECT username,password,name FROM mess WHERE username = '" + muser.Username + "';"
+            errs := db.QueryRow(query).Scan(&cUser.Username,&cUser.Password,&cUser.Nickname)
             if errs!=nil{
                 fmt.Println(errs)
                 status.Status = "false"
