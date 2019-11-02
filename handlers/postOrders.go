@@ -25,7 +25,6 @@ func PostOrders(w http.ResponseWriter, r *http.Request){
     fmt.Println("Got these:",order)
     db:= GetDB();
 
-    errw := db.QueryRow("SELECT bf1c,bf2c,lun1c,lun2c,din1c,din2c FROM menu WHERE day = $1;",date.AddDate(0,0,1).Format("2006-01-02")).Scan(&costs[0],&costs[1],&costs[2],&costs[3],&costs[4],&costs[5])
     if errw != nil{
         fmt.Println(errw)
     }

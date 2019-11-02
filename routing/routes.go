@@ -99,4 +99,16 @@ var routes = Routes{
         "/history",
         handlers.GetHistory,
     },
+    Route{
+        "Get Items",
+        "GET",
+        "/items",
+        handlers.GetItems,
+    },
+    Route{
+        "Post Items",
+        "POST",
+        "/items",
+        handlers.PostItems,
+    },
 }
