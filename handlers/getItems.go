@@ -14,10 +14,9 @@ func GetItems(w http.ResponseWriter, r *http.Request){
         Status: "error",
         Text: "",
     }
-    var item,items=" " string
+    var item,items string
     var cost,id int
-    db := GetDB()
-    rows,erri := db.Query("SELECT * FROM items;")
+    rows,_ := db.Query("SELECT * FROM items;")
     for rows.Next(){
         ezz := rows.Scan(&id,&item,&cost)
         if(ezz == nil){
@@ -31,5 +30,4 @@ func GetItems(w http.ResponseWriter, r *http.Request){
     w.Header().Set("Content-Type","application/json")
     w.WriteHeader(http.StatusOK)
     w.Write(itemJson)
-    return
 }

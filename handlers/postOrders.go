@@ -24,16 +24,12 @@ func PostOrders(w http.ResponseWriter, r *http.Request){
     }
     fmt.Println("Got these:",order)
     db:= GetDB();
-
-    if errw != nil{
-        fmt.Println(errw)
-    }
     val := reflect.ValueOf(order)
     for i := 1; i < val.NumField(); i++ {
         cost = cost + val.Field(i).Int() * costs[i-1]
     }
-    query := "INSERT INTO orders VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) ON CONFLICT (regno) DO UPDATE set bf1 = excluded.bf1,bf2 = excluded.bf2,lun1 = excluded.lun1, lun2 = excluded.lun2, din1 = excluded.din1, din2 = excluded.din2;"
-    _,erre := db.Exec(query,date.AddDate(0,0,1).Format("2006-01-02"),order.Username,order.Bf1,order.Bf2,order.Lun1,order.Lun2,order.Din1,order.Din2,cost)
+    query := "INSERT INTO orders VALUES ($1,$2,$3,$4,$5,$6) ON CONFLICT (regno) DO UPDATE set bf = excluded.bf,lun = excluded.lun,din = excluded.din, snk = excluded.snk;"
+    _,erre := db.Exec(query,date.AddDate(0,0,1).Format("2006-01-02"),order.Username,order.Bf,order.Lun,order.Din,order.Snk,cost)
     if(erre == nil){
         status.Status = "true"
     }else{
@@ -46,7 +42,7 @@ func PostOrders(w http.ResponseWriter, r *http.Request){
             codes[i-1] = GenRand(5) + fmt.Sprintf("%02d",val.Field(i))
         }
     }
-    _,errt := db.Exec("INSERT INTO order_codes_tomorrow values($1,$2,$3,$4,$5,$6,$7) ON CONFLICT (regno) DO UPDATE set bf1 = excluded.bf1,bf2 = excluded.bf2,lun1 = excluded.lun1,lun2 = excluded.lun2,din1 = excluded.din1,din2 = excluded.din2;",order.Username,codes[0],codes[1],codes[2],codes[3],codes[4],codes[5])
+    _,errt := db.Exec("INSERT INTO order_codes_tomorrow values($1,$2,$3,$4,$5) ON CONFLICT (regno) DO UPDATE set bf = excluded.bf,lun = excluded.lun,din = excluded.din,snk = excluded.snk;",order.Username,codes[0],codes[1],codes[2],codes[3],codes[4])
     if(errt == nil){
         status.Status = "true"
     }else{

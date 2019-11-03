@@ -9,7 +9,6 @@ import (
 
 //0 -> Today's Menu
 //1 -> Tomorrow's Menu
-//2 -> Return Menu List
 
 func GetMenu(w http.ResponseWriter, r *http.Request){
     db := GetDB()
@@ -19,10 +18,6 @@ func GetMenu(w http.ResponseWriter, r *http.Request){
         Lun: "null",
         Din: "null",
         Snk: "null",
-    }
-    status := Confirm{
-        Status: "error",
-        Text: "",
     }
     date := time.Now()
     option := r.URL.Query()["day"][0]
@@ -47,8 +42,4 @@ func GetMenu(w http.ResponseWriter, r *http.Request){
     w.Header().Set("Content-Type","application/json")
     w.WriteHeader(http.StatusOK)
     w.Write(menuJson)
-}
-
-func returnMenu() string{
-
 }

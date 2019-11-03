@@ -46,12 +46,6 @@ var routes = Routes{
         handlers.PostMenu,
     },
     Route{
-        "Add Menu Item",
-        "PUT",
-        "/menu",
-        handlers.PutMenu,
-    },
-    Route{
         "Check RegNum",
         "GET",
         "/users",
