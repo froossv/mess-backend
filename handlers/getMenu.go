@@ -14,14 +14,14 @@ func GetMenu(w http.ResponseWriter, r *http.Request){
     defer db.Close()
     var tm,to Menu
     menu := SendMenu{
-        TBf: "null",
-        TLun: "null",
-        TDin: "null",
-        TSnk: "null",
-        NBf: "null",
-        NLun: "null",
-        NDin: "null",
-        NSnk: "null",
+        TBf: "",
+        TLun: "",
+        TDin: "",
+        TSnk: "",
+        NBf: "",
+        NLun: "",
+        NDin: "",
+        NSnk: "",
     }
     date := time.Now()
     reg := r.URL.Query()["reg"][0]
@@ -36,14 +36,17 @@ func GetMenu(w http.ResponseWriter, r *http.Request){
         fmt.Println(errm)
         fmt.Println(erro)
     }
-
-    fmt.Println(tm.Lun);
-    fmt.Println(strings.Split(tm.Lun,","))
-    fmt.Println(len(strings.Split(tm.Lun,",")))
-
-    // for x,i := range len(strings.Split(tm.Bf,",")) {
-    //
-    // }
+    if(to.Bf != "null"){
+        for i,x := range strings.Split(tm.Bf,",") {
+            Bfos := strings.Split(to.Bf,",")
+            if(Bfos[i] != "null"){
+                menu.TBf = menu.TBf + x + "-" + GenRand(5) + Bfos[i] + ","
+            }else{
+                menu.TBf = menu.TBf + x + "-" + "null" + ","
+            }
+        }
+    }
+    fmt.Println(strings.TrimSuffix(menu.TBf,","))
 
     menuJson,err := json.Marshal(menu)
     if(err!=nil){
