@@ -5,36 +5,46 @@ import (
   "encoding/json"
   "time"
   "fmt"
+  "strings"
 )
 
-//0 -> Today's Menu
-//1 -> Tomorrow's Menu
-
+//date = time.Now().AddDate(0,0,1)
 func GetMenu(w http.ResponseWriter, r *http.Request){
     db := GetDB()
     defer db.Close()
-    menu := Menu{
-        Bf: "null",
-        Lun: "null",
-        Din: "null",
-        Snk: "null",
+    var tm,to Menu
+    menu := SendMenu{
+        TBf: "null",
+        TLun: "null",
+        TDin: "null",
+        TSnk: "null",
+        NBf: "null",
+        NLun: "null",
+        NDin: "null",
+        NSnk: "null",
     }
     date := time.Now()
-    option := r.URL.Query()["day"][0]
-    fmt.Println(option)
-    switch option {
-        case "0":
-            date = time.Now()
-            menu.Day = date.Format("2006-01-02")
-        case "1":
-            date = time.Now().AddDate(0,0,1)
-            menu.Day = date.Format("2006-01-02")
+    reg := r.URL.Query()["reg"][0]
+    fmt.Println(reg)
+    fmt.Println(date.Format("2006-01-02"))
+    querym := "SELECT bf,lun,din,snk FROM menu WHERE day = '" + date.Format("2006-01-02") + "';"
+    errm := db.QueryRow(querym).Scan(&tm.Bf,&tm.Lun,&tm.Din,&tm.Snk)
+    queryo := "SELECT bf,lun,din,snk FROM orders WHERE day = '" + date.Format("2006-01-02") + "' AND reg = " + reg + ";"
+    erro := db.QueryRow(queryo).Scan(&to.Bf,&to.Lun,&to.Din,&to.Snk)
+
+    if(errm != nil || erro != nil){
+        fmt.Println(errm)
+        fmt.Println(erro)
     }
-    query := "SELECT * FROM menu WHERE day = '" + date.Format("2006-01-02") + "';"
-    errr := db.QueryRow(query).Scan(&menu.Day,&menu.Bf,&menu.Lun,&menu.Din,&menu.Snk)
-    if(errr != nil){
-        fmt.Println(errr)
-    }
+
+    fmt.Println(tm.Lun);
+    fmt.Println(strings.Split(tm.Lun,","))
+    fmt.Println(len(strings.Split(tm.Lun,",")))
+
+    // for x,i := range len(strings.Split(tm.Bf,",")) {
+    //
+    // }
+
     menuJson,err := json.Marshal(menu)
     if(err!=nil){
         panic(err)

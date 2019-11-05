@@ -33,7 +33,18 @@ type Menu struct{
     Lun string `json:lun`
     Din string `json:din`
     Snk string `json:snk`
-} //postmenu
+}
+
+type SendMenu struct{
+    TBf string `json:tbf`
+    TLun string `json:lun`
+    TDin string `json:tdin`
+    TSnk string `json:tsnk`
+    NBf string `json:nbf`
+    NLun string `json:nlun`
+    NDin string `json:ndin`
+    NSnk string `json:nsnk`
+}
 
 type Code struct{
     //Username int `json: username`

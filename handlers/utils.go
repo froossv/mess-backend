@@ -24,19 +24,6 @@ func GetDB() (*sql.DB){
     }
     return db
 }
-/*
-func CreateTable() string{
-    date := time.Now()
-    db := GetDB()
-    defer db.Close()
-    query := "CREATE TABLE IF NOT EXISTS orders_" + date.Month().String() + "(day date,reg int,bf1 int,bf2 int,lun1 int,lun2 int,din1 int,din2 int)"
-    _,err := db.Exec(query)
-    if(err!=nil){
-        return "error"
-    }
-    return "orders_" + date.Month().String()
-}
-*/
 
 func GenRand(n int) string {
     var letter = []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
