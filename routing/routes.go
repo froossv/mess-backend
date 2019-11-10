@@ -22,12 +22,6 @@ var routes = Routes{
         handlers.Index,
     },
     Route{
-        "Return Order(s)",
-        "GET",
-        "/orders",
-        handlers.GetOrders,
-    },
-    Route{
         "Add an Order",
         "POST",
         "/orders",
