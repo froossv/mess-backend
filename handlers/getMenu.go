@@ -8,7 +8,6 @@ import (
   "strings"
 )
 
-//date = time.Now().AddDate(0,0,1)
 func GetMenu(w http.ResponseWriter, r *http.Request){
     db := GetDB()
     defer db.Close()
@@ -24,36 +23,19 @@ func GetMenu(w http.ResponseWriter, r *http.Request){
         Din: "null",
         Snk: "null",
     }
-    nm := Menu{
-        Bf: "null",
-        Lun: "null",
-        Din: "null",
-        Snk: "null",
+    menu := Menu{
+        Bf: "",
+        Lun: "",
+        Din: "",
+        Snk: "",
     }
-    no := Menu{
-        Bf: "null",
-        Lun: "null",
-        Din: "null",
-        Snk: "null",
-    }
-    menu := SendMenu{
-        TBf: "",
-        TLun: "",
-        TDin: "",
-        TSnk: "",
-        NBf: "",
-        NLun: "",
-        NDin: "",
-        NSnk: "",
-    }
-    date := time.Now()
     reg := r.URL.Query()["reg"][0]
-    // fmt.Println(reg)
-    fmt.Println(date.Format("2006-01-02"))
-
+    fmt.Println(reg)
+//date = time.Now().AddDate(0,0,1)
+    date := time.Now()
     querym := "SELECT bf,lun,din,snk FROM menu WHERE day = '" + date.Format("2006-01-02") + "';"
     errm := db.QueryRow(querym).Scan(&tm.Bf,&tm.Lun,&tm.Din,&tm.Snk)
-    queryo := "SELECT bf,lun,din,snk FROM orders WHERE day = '" + date.Format("2006-01-02") + "' AND reg = " + reg + ";"
+    queryo := "SELECT bf,lun,din,snk FROM order_codes WHERE reg = " + reg + ";"
     erro := db.QueryRow(queryo).Scan(&to.Bf,&to.Lun,&to.Din,&to.Snk)
     fmt.Println(tm)
     fmt.Println(to)
@@ -61,26 +43,10 @@ func GetMenu(w http.ResponseWriter, r *http.Request){
         fmt.Println(errm)
         fmt.Println(erro)
     }
-    writeToJson(&menu.TBf,tm.Bf,to.Bf)
-    writeToJson(&menu.TLun,tm.Lun,to.Lun)
-    writeToJson(&menu.TDin,tm.Din,to.Din)
-    writeToJson(&menu.TSnk,tm.Snk,to.Snk)
-
-    date = time.Now().AddDate(0,0,1)
-    querym = "SELECT bf,lun,din,snk FROM menu WHERE day = '" + date.Format("2006-01-02") + "';"
-    errm = db.QueryRow(querym).Scan(&nm.Bf,&nm.Lun,&nm.Din,&nm.Snk)
-    queryo = "SELECT bf,lun,din,snk FROM orders WHERE day = '" + date.Format("2006-01-02") + "' AND reg = " + reg + ";"
-    erro = db.QueryRow(queryo).Scan(&no.Bf,&no.Lun,&no.Din,&no.Snk)
-    fmt.Println(tm)
-    fmt.Println(to)
-    if(errm != nil || erro != nil){
-        fmt.Println(errm)
-        fmt.Println(erro)
-    }
-    writeToJson(&menu.NBf,nm.Bf,no.Bf)
-    writeToJson(&menu.NLun,nm.Lun,no.Lun)
-    writeToJson(&menu.NDin,nm.Din,no.Din)
-    writeToJson(&menu.NSnk,nm.Snk,no.Snk)
+    writeToJson(&menu.Bf,tm.Bf,to.Bf)
+    writeToJson(&menu.Lun,tm.Lun,to.Lun)
+    writeToJson(&menu.Din,tm.Din,to.Din)
+    writeToJson(&menu.Snk,tm.Snk,to.Snk)
 
     menuJson,err := json.Marshal(menu)
     if(err!=nil){
@@ -91,25 +57,29 @@ func GetMenu(w http.ResponseWriter, r *http.Request){
     w.Write(menuJson)
 }
 
-func writeToJson(Dest *string,menu,order string) string{
+func writeToJson(Dest *string,menu,order string){
     if(menu != "null"){
-        for i,x := range strings.Split(menu,","){
+        for _,x := range strings.Split(menu,","){
+            var flag bool
+            *Dest += x
             if(order != "null"){
-                Bfos := strings.Split(order,",")
-                if(Bfos[i] != "null"){
-                    iqa := strings.Split(Bfos[i],"-")
-                    if(x == iqa[0]){
-                        *Dest = *Dest + x + "-" + GenRand(5) + iqa[1] + ","
+                for _,y := range strings.Split(order,","){
+                    if(y[5:7] == x){
+                        *Dest += "-" + y
+                        flag = true
+                        break
                     }
-                }else{
-                    *Dest = *Dest + x + "-" + "null" + ","
+                }
+                if(!flag){
+                    *Dest += "-" + "null"
                 }
             }else{
-                *Dest = *Dest + x + "-" + "null" + ","
+                *Dest += "-" + "null"
             }
+            *Dest += ","
         }
     }else{
         *Dest = "null"
     }
-    return strings.TrimSuffix(*Dest,",")
+    *Dest = strings.TrimSuffix(*Dest,",")
 }

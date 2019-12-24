@@ -5,6 +5,7 @@ import(
     "encoding/json"
     "net/http"
     "strconv"
+    "strings"
 )
 
 func GetItems(w http.ResponseWriter, r *http.Request){
@@ -14,14 +15,18 @@ func GetItems(w http.ResponseWriter, r *http.Request){
         Status: "error",
         Text: "",
     }
-    var item,items string
+    var item,items,deleted string
     var cost,id int
-    rows,_ := db.Query("SELECT * FROM items;")
-    for rows.Next(){
-        ezz := rows.Scan(&id,&item,&cost)
-        if(ezz == nil){
-            items = items + strconv.Itoa(id) + ":" + item + ":" + strconv.Itoa(cost) + ","
+    rows,err := db.Query("SELECT * FROM items WHERE deleted = 'false' ORDER BY id ASC;")
+    if(err == nil){
+        for rows.Next(){
+            ezz := rows.Scan(&id,&item,&cost,&deleted)
+            if(ezz == nil){
+                items = items + strconv.Itoa(id) + ":" + item + ":" + strconv.Itoa(cost) + ":" + deleted + ","
+            }
         }
+        status.Status = "Menu Items"
+        status.Text = strings.TrimSuffix(items,",")
     }
     itemJson,errm := json.Marshal(status)
     if errm!=nil{

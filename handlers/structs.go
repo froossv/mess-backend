@@ -2,10 +2,10 @@ package handlers
 
 type Order struct{
     Username int `json:username`
-    Bf int `json:bf`
-    Lun int `json:lun`
-    Din int `json:din`
-    Snk int `jsson:snk`
+    Bf string `json:bf`
+    Lun string `json:lun`
+    Din string `json:din`
+    Snk string `jsson:snk`
 }
 
 type UserDet struct{
@@ -40,10 +40,6 @@ type SendMenu struct{
     TLun string `json:lun`
     TDin string `json:tdin`
     TSnk string `json:tsnk`
-    NBf string `json:nbf`
-    NLun string `json:nlun`
-    NDin string `json:ndin`
-    NSnk string `json:nsnk`
 }
 
 type Code struct{

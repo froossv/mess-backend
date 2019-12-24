@@ -5,7 +5,9 @@ import (
     "net/http"
     "encoding/json"
     "time"
+    "strconv"
     "reflect"
+    "strings"
 )
 
 func PostOrders(w http.ResponseWriter, r *http.Request){
@@ -15,9 +17,7 @@ func PostOrders(w http.ResponseWriter, r *http.Request){
         Status: "error",
         Text: "",
     }
-    var costs [6]int64
-    var cost int64
-    var codes [6]string
+    var cost int
     err := json.NewDecoder(r.Body).Decode(&order)
     if(err!=nil){
         panic(err)
@@ -26,23 +26,41 @@ func PostOrders(w http.ResponseWriter, r *http.Request){
     db:= GetDB();
     val := reflect.ValueOf(order)
     for i := 1; i < val.NumField(); i++ {
-        cost = cost + val.Field(i).Int() * costs[i-1]
-    }
-    query := "INSERT INTO orders VALUES ($1,$2,$3,$4,$5,$6) ON CONFLICT (regno) DO UPDATE set bf = excluded.bf,lun = excluded.lun,din = excluded.din, snk = excluded.snk;"
-    _,erre := db.Exec(query,date.AddDate(0,0,1).Format("2006-01-02"),order.Username,order.Bf,order.Lun,order.Din,order.Snk,cost)
-    if(erre == nil){
-        status.Status = "true"
-    }else{
-        fmt.Println(erre)
-    }
-    for i := 1; i < val.NumField(); i++ {
-        if(val.Field(i).Int() == 0){
-            codes[i-1] = "null"
-        }else{
-            codes[i-1] = GenRand(5) + fmt.Sprintf("%02d",val.Field(i))
+        if(val.Field(i).String() != "null"){
+            for _,x := range strings.Split(val.Field(i).String(),","){
+                if(x != "null"){
+                    iqa := strings.Split(x,"-")
+                    q,_ := strconv.Atoi(iqa[1])
+                    a,_ := strconv.Atoi(iqa[2])
+                    cost = cost + q*a
+                }
+            }
         }
     }
-    _,errt := db.Exec("INSERT INTO order_codes_tomorrow values($1,$2,$3,$4,$5) ON CONFLICT (regno) DO UPDATE set bf = excluded.bf,lun = excluded.lun,din = excluded.din,snk = excluded.snk;",order.Username,codes[0],codes[1],codes[2],codes[3],codes[4])
+    query := "INSERT INTO orders VALUES ($1,$2,$3,$4,$5,$6,$7) ON CONFLICT ON CONSTRAINT \"uniqueregdate\" DO UPDATE set bf = excluded.bf,lun = excluded.lun,din = excluded.din, snk = excluded.snk;"
+    _,erre := db.Exec(query,date.Format("2006-01-02"),order.Username,order.Bf,order.Lun,order.Din,order.Snk,cost)
+    if(erre == nil){
+         status.Status = "true"
+    }else{
+         fmt.Println(erre)
+    }
+    var codes [4]string
+    for i := 1; i < val.NumField(); i++ {
+        if(val.Field(i).String() != "null"){
+            for _,x := range strings.Split(val.Field(i).String(),","){
+                if(x != "null"){
+                    iqa := strings.Split(x,"-")
+                    id,_ := strconv.Atoi(iqa[0])
+                    q,_ := strconv.Atoi(iqa[1])
+                    codes[i-1] += "," + GenRand(5) + fmt.Sprintf("%02d",id) + fmt.Sprintf("%02d",q)
+                }
+            }
+        }else{
+            codes[i-1] = "null"
+        }
+        codes[i-1] = strings.Trim(codes[i-1],",")
+    }
+    _,errt := db.Exec("INSERT INTO order_codes values($1,$2,$3,$4,$5) ON CONFLICT (reg) DO UPDATE set bf = excluded.bf,lun = excluded.lun,din = excluded.din,snk = excluded.snk;",order.Username,codes[0],codes[1],codes[2],codes[3])
     if(errt == nil){
         status.Status = "true"
     }else{
